@@ -28,6 +28,7 @@ import com.example.yaxi.gankio.fragment.IOSFragment;
 import com.example.yaxi.gankio.fragment.RecommendFragment;
 import com.example.yaxi.gankio.fragment.RestFragment;
 import com.example.yaxi.gankio.fragment.WebFragment;
+import com.example.yaxi.gankio.http.Request;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -112,6 +113,7 @@ public class MainActivity extends AppCompatActivity
         });
         magicIndicator.setNavigator(commonNavigator);
         ViewPagerHelper.bind(magicIndicator,mViewPager);
+
     }
 
     private void initFragments() {

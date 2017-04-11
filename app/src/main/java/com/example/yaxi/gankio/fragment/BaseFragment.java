@@ -1,6 +1,5 @@
 package com.example.yaxi.gankio.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.yaxi.gankio.Data;
@@ -30,25 +28,22 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Android page.
  * Created by icursoft on 2017/4/11.
  */
 
-public class AndroidFragment extends Fragment implements BaseQuickAdapter.RequestLoadMoreListener,
+public abstract class BaseFragment extends Fragment  implements BaseQuickAdapter.RequestLoadMoreListener,
         BaseQuickAdapter.OnItemClickListener {
 
-    private static final String TAG = AndroidFragment.class.getSimpleName();
-    private static final int SINGLE_COUNT = 10;
+    private static final String TAG = BaseFragment.class.getSimpleName();
+    protected static final int SINGLE_COUNT = 10;
 
-    private RecyclerView mRecycler;
+    protected Context mContext;
+    protected boolean isLoadMore = false;
+    protected DataAdapter dataAdapter;
 
-    private Context mContext;
-    private boolean isLoadMore = false;
-    private DataAdapter dataAdapter;
+    protected int page = 1;
 
-    private int page = 1;
-
-    private List<Data.Results> mAllDataList = new ArrayList<>();
+    protected List<Data.Results> mAllDataList = new ArrayList<>();
 
     @Override
     public void onAttach(Context context) {
@@ -69,8 +64,8 @@ public class AndroidFragment extends Fragment implements BaseQuickAdapter.Reques
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView: ");
-        View view = inflater.inflate(R.layout.fragment_android, null, false);
-        mRecycler = (RecyclerView) view.findViewById(R.id.recycler_android);
+        View view = getRootView();
+        RecyclerView mRecycler = getRecyclerView();
         dataAdapter = new DataAdapter(R.layout.item_data);
         dataAdapter.setEnableLoadMore(true);
         dataAdapter.setOnLoadMoreListener(this,mRecycler);
@@ -82,65 +77,11 @@ public class AndroidFragment extends Fragment implements BaseQuickAdapter.Reques
         return view;
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        Log.i(TAG, "onViewCreated: ");
-        super.onViewCreated(view, savedInstanceState);
-    }
+    protected abstract View getRootView();
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        Log.i(TAG, "onActivityCreated: ");
-        super.onActivityCreated(savedInstanceState);
-    }
+    protected abstract RecyclerView getRecyclerView();
 
-    @Override
-    public void onStart() {
-        Log.i(TAG, "onStart: ");
-        super.onStart();
-    }
-
-    @Override
-    public void onResume() {
-        Log.i(TAG, "onResume: ");
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        Log.i(TAG, "onPause: ");
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        Log.i(TAG, "onStop: ");
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroyView() {
-        Log.i(TAG, "onDestroyView: ");
-        super.onDestroyView();
-    }
-
-    @Override
-    public void onDestroy() {
-        Log.i(TAG, "onDestroy: ");
-        super.onDestroy();
-    }
-
-    @Override
-    public void onDetach() {
-        Log.i(TAG, "onDetach: ");
-        super.onDetach();
-    }
-
-    @Override
-    public void onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState) {
-        super.onInflate(context, attrs, savedInstanceState);
-        Log.i(TAG, "onInflate: ");
-    }
+    protected abstract String getPageType();
 
 
 
@@ -167,7 +108,7 @@ public class AndroidFragment extends Fragment implements BaseQuickAdapter.Reques
     }
 
     private void getDataWithCategory() {
-        Request.getDataWithCategory("Android", SINGLE_COUNT, page).enqueue(new Callback<Data>() {
+        Request.getDataWithCategory(getPageType(), SINGLE_COUNT, page).enqueue(new Callback<Data>() {
             @Override
             public void onResponse(Call<Data> call, Response<Data> response) {
                 List<Data.Results> results = response.body().getResults();

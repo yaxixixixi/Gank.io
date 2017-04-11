@@ -6,5 +6,5 @@ package com.example.yaxi.gankio.utils;
 
 public class Const {
 
-    public static final String BASE_URL = "http://gank.io/api";
+    public static final String BASE_URL = "http://gank.io/api/";
 }
