@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -15,6 +17,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.example.yaxi.gankio.adapter.MainAdapter;
+import com.example.yaxi.gankio.fragment.AndroidFragment;
+import com.example.yaxi.gankio.fragment.AppFragment;
+import com.example.yaxi.gankio.fragment.BenefitsFragment;
+import com.example.yaxi.gankio.fragment.ExtendFragment;
+import com.example.yaxi.gankio.fragment.HoleFragment;
+import com.example.yaxi.gankio.fragment.IOSFragment;
+import com.example.yaxi.gankio.fragment.RecommendFragment;
+import com.example.yaxi.gankio.fragment.RestFragment;
+import com.example.yaxi.gankio.fragment.WebFragment;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -31,7 +44,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private ArrayList<String> mTitleDataList;
+    private ArrayList<String> mTitleDataList = new ArrayList<>();
+    private List<Fragment> mFragments = new ArrayList<>();
     private ViewPager mViewPager;
 
     @Override
@@ -59,8 +73,14 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        initTitleData();
+        initFragments();
+
         MagicIndicator magicIndicator = (MagicIndicator) findViewById(R.id.magic_indicator);
         mViewPager = (ViewPager)findViewById(R.id.view_pager);
+        FragmentManager manager = getSupportFragmentManager();
+        MainAdapter adapter = new MainAdapter(manager,mFragments);
+        mViewPager.setAdapter(adapter);
         CommonNavigator commonNavigator = new CommonNavigator(this);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
@@ -92,6 +112,40 @@ public class MainActivity extends AppCompatActivity
         });
         magicIndicator.setNavigator(commonNavigator);
         ViewPagerHelper.bind(magicIndicator,mViewPager);
+    }
+
+    private void initFragments() {
+        AndroidFragment androidFragment = new AndroidFragment();
+        AppFragment appFragment = new AppFragment();
+        BenefitsFragment benefitsFragment = new BenefitsFragment();
+        ExtendFragment extendFragment = new ExtendFragment();
+        HoleFragment holeFragment = new HoleFragment();
+        IOSFragment iosFragment = new IOSFragment();
+        RecommendFragment recommendFragment = new RecommendFragment();
+        RestFragment restFragment = new RestFragment();
+        WebFragment webFragment = new WebFragment();
+
+        mFragments.add(holeFragment);
+        mFragments.add(benefitsFragment);
+        mFragments.add(androidFragment);
+        mFragments.add(iosFragment);
+        mFragments.add(restFragment);
+        mFragments.add(webFragment);
+        mFragments.add(extendFragment);
+        mFragments.add(appFragment);
+        mFragments.add(recommendFragment);
+    }
+
+    private void initTitleData() {
+        mTitleDataList.add("全部");
+        mTitleDataList.add("福利");
+        mTitleDataList.add("Android");
+        mTitleDataList.add("IOS");
+        mTitleDataList.add("休息视频");
+        mTitleDataList.add("前端");
+        mTitleDataList.add("扩展资源");
+        mTitleDataList.add("APP");
+        mTitleDataList.add("瞎推荐");
     }
 
     @Override
