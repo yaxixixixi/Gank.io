@@ -39,6 +39,6 @@ public class IOSFragment extends BaseFragment {
 
     @Override
     protected String getPageType() {
-        return "iOS ";
+        return "iOS";
     }
 }

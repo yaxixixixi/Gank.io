@@ -24,7 +24,6 @@ public class AppFragment extends BaseFragment {
         view = inflater.inflate(R.layout.fragment_app, null, false);
         appRecycler = (RecyclerView) view.findViewById(R.id.recycler_app);
         return super.onCreateView(inflater, container, savedInstanceState);
-
     }
 
     @Override

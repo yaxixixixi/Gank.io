@@ -172,6 +172,10 @@ public class AndroidFragment extends Fragment implements BaseQuickAdapter.Reques
             public void onResponse(Call<Data> call, Response<Data> response) {
                 List<Data.Results> results = response.body().getResults();
                 Log.i(TAG, "onResponse: "+results.toString());
+                if (results.size() == 0){
+                    dataAdapter.loadMoreEnd();
+                    return;
+                }
                 mAllDataList.addAll(results);
                 updateData(results);
                 isLoadMore = true;

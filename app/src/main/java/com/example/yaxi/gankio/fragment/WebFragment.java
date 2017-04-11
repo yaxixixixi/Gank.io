@@ -38,6 +38,6 @@ public class WebFragment extends BaseFragment {
 
     @Override
     protected String getPageType() {
-        return "前端 ";
+        return "前端";
     }
 }

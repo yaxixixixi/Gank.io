@@ -39,6 +39,6 @@ public class BenefitsFragment extends BaseFragment {
 
     @Override
     protected String getPageType() {
-        return "福利 ";
+        return "福利";
     }
 }

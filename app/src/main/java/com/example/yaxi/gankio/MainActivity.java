@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity
         FragmentManager manager = getSupportFragmentManager();
         MainAdapter adapter = new MainAdapter(manager,mFragments);
         mViewPager.setAdapter(adapter);
+        mViewPager.setOffscreenPageLimit(3);
         CommonNavigator commonNavigator = new CommonNavigator(this);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
             @Override

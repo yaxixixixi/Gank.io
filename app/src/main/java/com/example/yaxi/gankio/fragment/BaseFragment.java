@@ -56,7 +56,6 @@ public abstract class BaseFragment extends Fragment  implements BaseQuickAdapter
     public void onCreate(@Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreate: ");
         super.onCreate(savedInstanceState);
-        getDataWithCategory();
 
     }
 
@@ -75,6 +74,15 @@ public abstract class BaseFragment extends Fragment  implements BaseQuickAdapter
         mRecycler.setLayoutManager(new LinearLayoutManager(mContext));
         mRecycler.setAdapter(dataAdapter);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (page == 1)
+            getDataWithCategory();
+        else
+            dataAdapter.setNewData(mAllDataList);
     }
 
     protected abstract View getRootView();
@@ -105,9 +113,9 @@ public abstract class BaseFragment extends Fragment  implements BaseQuickAdapter
         }else{
             dataAdapter.setNewData(results);
         }
-    }
+        }
 
-    private void getDataWithCategory() {
+    protected void getDataWithCategory() {
         Request.getDataWithCategory(getPageType(), SINGLE_COUNT, page).enqueue(new Callback<Data>() {
             @Override
             public void onResponse(Call<Data> call, Response<Data> response) {
